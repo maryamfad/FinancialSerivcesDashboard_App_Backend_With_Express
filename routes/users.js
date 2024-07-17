@@ -1,12 +1,29 @@
-const express = require('express');
-const User = require('./models/User');
-const router = express.Router();
-const axios = require('axios');
+const express = require("express");
 
-// Register User
-router.post('/signup', async (req, res) => {
+const User = require("../models/User");
+const router = express.Router();
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUI = require("swagger-ui-express");
+
+
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error fetching users' });
+  }
+})
+
+router.post("/signup", async (req, res) => {
   const { username, password } = req.body;
-  const newUser = new User({ username, password, balance: 10000, portfolio: [] });
+  const newUser = new User({
+    username,
+    password,
+    balance: 10000,
+    portfolio: [],
+  });
   await newUser.save();
   res.json(newUser);
 });

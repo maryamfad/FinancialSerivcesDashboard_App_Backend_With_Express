@@ -1,10 +1,17 @@
 const express = require("express");
-
 const User = require("../models/User");
 const router = express.Router();
-const swaggerJsDoc = require("swagger-jsdoc");
-const swaggerUI = require("swagger-ui-express");
 
+
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Retrieve a list of users
+ *     responses:
+ *       200:
+ *         description: A list of users
+ */
 
 router.get("/", async (req, res) => {
   try {
@@ -12,9 +19,9 @@ router.get("/", async (req, res) => {
     res.status(200).json(users);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Error fetching users' });
+    res.status(500).json({ message: "Error fetching users" });
   }
-})
+});
 
 router.post("/signup", async (req, res) => {
   const { username, password } = req.body;

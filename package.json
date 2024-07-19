@@ -2,9 +2,11 @@
   "name": "dashboard-backend",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "test": "mocha --exit"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +17,10 @@
     "mongoose": "^8.5.1"
   },
   "devDependencies": {
+    "@types/chai-http": "^4.2.0",
+    "chai": "^4.4.1",
+    "chai-http": "^4.4.0",
+    "mocha": "^10.6.0",
     "nodemon": "^3.1.4",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"

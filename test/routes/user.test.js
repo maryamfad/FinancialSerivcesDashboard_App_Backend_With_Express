@@ -1,7 +1,7 @@
 // import * as chai from "chai";
 import chaiHttp from "chai-http/index.js";
-import server from "../server.js";
-import User from "../models/User.js";
+import server from "../../server.js";
+import User from "../../models/User.js";
 
 let chai;
 await import("chai").then((result) => (chai = result.use(chaiHttp)));

@@ -7,7 +7,7 @@ dotenv.config();
 const app = express();
 import swaggerDocs from "./swagger.js";
 import userRoutes from "./routes/users.js";
-import {authRoutes, authMiddleware} from "./routes/auth.js";
+import { authRoutes, authMiddleware } from "./routes/auth.js";
 import tradeRoutes from "./routes/trade.js";
 import User from "./models/User.js";
 
@@ -21,7 +21,12 @@ mongoose
   )
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("Error with MongoDB Connection", err));
-
+app.use((req, res, next) => {
+  if (req.path === "/") {
+    return res.redirect("/api-docs");
+  }
+  next();
+});
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/trade", tradeRoutes);

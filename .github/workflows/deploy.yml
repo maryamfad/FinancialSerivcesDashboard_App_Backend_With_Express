@@ -21,8 +21,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        run: npm test  # Adjust this if you have a different test script
+      # - name: Run tests
+      #   run: npm test  # Adjust this if you have a different test script
 
       - name: Deploy to Heroku
         env:

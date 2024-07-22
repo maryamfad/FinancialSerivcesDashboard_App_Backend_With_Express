@@ -4,13 +4,13 @@ import swaggerJsDoc from "swagger-jsdoc";
 const swaggerDefinition = {
   openapi: "3.0.0",
   info: {
-    title: "Your API Title",
+    title: "WealthPath",
     version: "1.0.0",
-    description: "A description of your API",
+    description: "The backend APIs for wealthPath",
   },
   servers: [
     {
-      url: "http://localhost:3000", 
+      url: "http://localhost:5000", 
     },
   ],
 };

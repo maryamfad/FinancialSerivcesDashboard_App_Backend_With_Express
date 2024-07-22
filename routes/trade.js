@@ -1,7 +1,7 @@
 import express from "express";
 import User from "../models/User.js";
 const router = express.Router();
-
+import {authMiddleware} from "../routes/auth.js";
 /**
  * @swagger
  * /trade/buy:
@@ -62,7 +62,7 @@ const router = express.Router();
  *                   type: string
  *                   description: The error message
  */
-router.post("/buy", async (req, res) => {
+router.post("/buy", authMiddleware, async (req, res) => {
   const { userId, stockSymbol, quantity, purchasePrice } = req.body;
   const user = await User.findById(userId);
   const totalCost = quantity * purchasePrice;

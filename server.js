@@ -7,12 +7,13 @@ dotenv.config();
 const app = express();
 import swaggerDocs from "./swagger.js";
 import userRoutes from "./routes/users.js";
-import authRoutes from "./routes/auth.js";
+import {authRoutes, authMiddleware} from "./routes/auth.js";
 import tradeRoutes from "./routes/trade.js";
 import User from "./models/User.js";
 
 app.use(cors());
 app.use(express.json());
+// app.use(authMiddleware);
 
 mongoose
   .connect(

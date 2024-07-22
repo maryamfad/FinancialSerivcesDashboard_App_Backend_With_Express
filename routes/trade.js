@@ -141,7 +141,6 @@ router.post("/sell", async (req, res) => {
   const { userId, stockSymbol, quantity, sellingPrice } = req.body;
   const user = await User.findById(userId);
   const stock = user.portfolio.find((s) => s.stockSymbol === stockSymbol);
-
   if (stock && stock.quantity >= quantity) {
     const totalRevenue = quantity * sellingPrice;
     stock.quantity -= quantity;
@@ -159,4 +158,4 @@ router.post("/sell", async (req, res) => {
 });
 
 // module.exports = router;
-export default router
+export default router;

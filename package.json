@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "mocha 'test/routes/trade.test.js'"
+    "test": "mocha 'test/routes/sell.test.js'"
   },
   "author": "",
   "license": "ISC",

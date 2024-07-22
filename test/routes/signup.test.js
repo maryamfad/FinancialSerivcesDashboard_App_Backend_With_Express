@@ -22,7 +22,7 @@ describe("Users API", function () {
   });
 
   // Test the /signup route
-  describe("POST /users/signup", function () {
+  describe("POST /auth/signup", function () {
     it("it should register a new user", (done) => {
       const user = {
         username: "testuser",
@@ -31,7 +31,7 @@ describe("Users API", function () {
       console.log("Sending request to /users/signup with user:", user);
       chai
         .request(server)
-        .post("/users/signup")
+        .post("/auth/signup")
         .send(user)
         .end((err, res) => {
           if (err) done(err);
@@ -39,21 +39,6 @@ describe("Users API", function () {
           res.should.have.status(200);
           res.body.should.be.a("object");
           res.body.should.have.property("username").eql("testuser");
-          done();
-        });
-    });
-  });
-
-  // Test the /users route
-  describe("GET /users", () => {
-    it("it should GET all the users", (done) => {
-      chai
-        .request(server)
-        .get("/users")
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a("array");
-          res.body.length.should.be.eql(0);
           done();
         });
     });

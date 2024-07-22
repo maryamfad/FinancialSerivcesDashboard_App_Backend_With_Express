@@ -2,7 +2,6 @@ import express from "express";
 import User from "../models/User.js";
 const router = express.Router();
 
-
 /**
  * @swagger
  * /users:
@@ -23,16 +22,4 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/signup", async (req, res) => {
-  const { username, password } = req.body;
-  const newUser = new User({
-    username,
-    password,
-    balance: 10000,
-    portfolio: [],
-  });
-  await newUser.save();
-  res.json(newUser);
-});
-// module.exports = router;
-export default router
+export default router;

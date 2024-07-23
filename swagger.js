@@ -10,7 +10,7 @@ const swaggerDefinition = {
   },
   servers: [
     {
-      url: "https://wealthpath-385e08c18cf4.herokuapp.com:5000"
+      url: "https://wealthpath-385e08c18cf4.herokuapp.com"
     },
     {
       url: "http://localhost:5000" 

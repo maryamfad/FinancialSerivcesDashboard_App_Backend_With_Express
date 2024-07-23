@@ -23,6 +23,8 @@ jobs:
         run: npm install
 
       - name: Run tests
+        env:
+          MONGO_DB_URI: ${{ secrets.MONGO_DB_URI }}
         run: npm test  
 
       - name: Install Heroku CLI

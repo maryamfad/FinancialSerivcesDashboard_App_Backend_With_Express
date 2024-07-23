@@ -19,8 +19,6 @@ import User from "./models/User.js";
 app.use(cors());
 app.use(express.json());
 
-console.log("process.env.MONGO_DB_URI", process.env.MONGO_DB_URI + uri_tail);
-
 mongoose
   .connect(process.env.MONGO_DB_URI + uri_tail)
   .then(() => console.log("MongoDB connected"))

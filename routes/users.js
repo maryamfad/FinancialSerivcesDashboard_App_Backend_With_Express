@@ -7,6 +7,8 @@ const router = express.Router();
  * /users:
  *   get:
  *     summary: Retrieve a list of users
+ *     tags:
+ *      - Users
  *     responses:
  *       200:
  *         description: A list of users

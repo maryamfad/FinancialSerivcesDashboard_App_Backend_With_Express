@@ -35,15 +35,12 @@ const JWT_SECRET = process.env.JWT_SECRET;
 *               schema:
 *                 type: object
 *                 properties:
-*                   _id:
-*                     type: string
-*                     example: 60f8f7c8c2a5a90d6c48553c
 *                   username:
 *                     type: string
-*                     example: johndoe
+*                     example: testuser100
 *                   password:
 *                     type: string
-*                     example: password123
+*                     example: testpassword100
 *                   balance:
 *                     type: integer
 *                     example: 10000
@@ -96,10 +93,10 @@ router.post("/signup", async (req, res) => {
 *               properties:
 *                 username:
 *                   type: string
-*                   example: johndoe
+*                   example: testuser0
 *                 password:
 *                   type: string
-*                   example: password123
+*                   example: testpassword0
 *       responses:
 *         '200':
 *           description: User successfully logged in

@@ -18,16 +18,16 @@ import {authMiddleware} from "../routes/auth.js";
  *             properties:
  *               userId:
  *                 type: string
- *                 description: The ID of the user
+ *                 example: "669ef955f2d651be269c1921"
  *               stockSymbol:
  *                 type: string
- *                 description: The symbol of the stock to sell
+ *                 example: "AAPL"
  *               quantity:
  *                 type: number
- *                 description: The quantity of stock to sell
+ *                 example: 3
  *               purchasePrice:
  *                 type: number
- *                 description: The price at which to sell the stock
+ *                 example: 140
  *     responses:
  *       200:
  *         description: Buy request was successful
@@ -37,20 +37,15 @@ import {authMiddleware} from "../routes/auth.js";
  *               type: object
  *               properties:
  *                 userId:
- *                   type: string
- *                   description: The ID of the user
+ *                   type: string                   
  *                 stockSymbol:
- *                   type: string
- *                   description: The symbol of the stock bought
+ *                   type: string                   
  *                 quantity:
- *                   type: number
- *                   description: The quantity of stock bought
+ *                   type: number                   
  *                 totalRevenue:
- *                   type: number
- *                   description: The total revenue after the stock bought
+ *                   type: number                  
  *                 balance:
- *                   type: number
- *                   description: The updated balance of the user
+ *                   type: number                  
  *       400:
  *         description: Invalid request or insufficient stock quantity
  *         content:
@@ -60,7 +55,13 @@ import {authMiddleware} from "../routes/auth.js";
  *               properties:
  *                 error:
  *                   type: string
- *                   description: The error message
+ *                   
+ *   parameters:
+ *      - in: header
+ *        name: Autnentication Token
+ *        required: true
+ *        schema:
+ *          type: string
  */
 router.post("/buy", authMiddleware, async (req, res) => {
   const { userId, stockSymbol, quantity, purchasePrice } = req.body;
@@ -92,16 +93,16 @@ router.post("/buy", authMiddleware, async (req, res) => {
  *             properties:
  *               userId:
  *                 type: string
- *                 description: The ID of the user
+ *                 example: "669ef955f2d651be269c1921"
  *               stockSymbol:
  *                 type: string
- *                 description: The symbol of the stock to sell
+ *                 example: "AAPL"
  *               quantity:
  *                 type: number
- *                 description: The quantity of stock to sell
+ *                 example: 3
  *               sellingPrice:
  *                 type: number
- *                 description: The price at which to sell the stock
+ *                 example: 120
  *     responses:
  *       200:
  *         description: Sell request was successful
@@ -111,20 +112,15 @@ router.post("/buy", authMiddleware, async (req, res) => {
  *               type: object
  *               properties:
  *                 userId:
- *                   type: string
- *                   description: The ID of the user
+ *                   type: string                   
  *                 stockSymbol:
- *                   type: string
- *                   description: The symbol of the stock sold
+ *                   type: string                   
  *                 quantity:
- *                   type: number
- *                   description: The quantity of stock sold
+ *                   type: number                   
  *                 totalRevenue:
- *                   type: number
- *                   description: The total revenue from the sale
+ *                   type: number                   
  *                 balance:
- *                   type: number
- *                   description: The updated balance of the user
+ *                   type: number                   
  *       400:
  *         description: Invalid request or insufficient stock quantity
  *         content:
@@ -133,8 +129,13 @@ router.post("/buy", authMiddleware, async (req, res) => {
  *               type: object
  *               properties:
  *                 error:
- *                   type: string
- *                   description: The error message
+ *                   type: string                   
+ *     parameters:
+ *      - in: header
+ *        name: Autnentication Token
+ *        required: true        
+ *        schema:
+ *          type: string
  */
 
 router.post("/sell", async (req, res) => {

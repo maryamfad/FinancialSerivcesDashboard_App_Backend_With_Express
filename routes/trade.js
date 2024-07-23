@@ -7,6 +7,8 @@ import {authMiddleware} from "../routes/auth.js";
  * /trade/buy:
  *   post:
  *     summary: Perform a buy request
+ *     security:
+ *       - BearerAuth: []
  *     tags:
  *       - Trade
  *     requestBody:
@@ -47,21 +49,10 @@ import {authMiddleware} from "../routes/auth.js";
  *                 balance:
  *                   type: number                  
  *       400:
- *         description: Invalid request or insufficient stock quantity
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
+ *         description: Invalid request
+ *         
  *                   
- *   parameters:
- *      - in: header
- *        name: Autnentication Token
- *        required: true
- *        schema:
- *          type: string
+ *     
  */
 router.post("/buy", authMiddleware, async (req, res) => {
   const { userId, stockSymbol, quantity, purchasePrice } = req.body;
@@ -82,6 +73,8 @@ router.post("/buy", authMiddleware, async (req, res) => {
  * /trade/sell:
  *   post:
  *     summary: Perform a sell request
+ *     security:
+ *       - BearerAuth: []
  *     tags:
  *       - Trade
  *     requestBody:
@@ -123,22 +116,10 @@ router.post("/buy", authMiddleware, async (req, res) => {
  *                   type: number                   
  *       400:
  *         description: Invalid request or insufficient stock quantity
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string                   
- *     parameters:
- *      - in: header
- *        name: Autnentication Token
- *        required: true        
- *        schema:
- *          type: string
+ *                           
  */
 
-router.post("/sell", async (req, res) => {
+router.post("/sell", authMiddleware, async (req, res) => {
   const { userId, stockSymbol, quantity, sellingPrice } = req.body;
   const user = await User.findById(userId);
   const stock = user.portfolio.find((s) => s.stockSymbol === stockSymbol);

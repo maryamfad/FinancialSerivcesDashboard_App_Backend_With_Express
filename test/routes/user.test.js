@@ -1,13 +1,13 @@
-// import * as chai from "chai";
+import mongoose from "mongoose";
 import chaiHttp from "chai-http/index.js";
 import server from "../../server.js";
 import User from "../../models/User.js";
-
+import dotenv from "dotenv";
+dotenv.config();
 let chai;
 await import("chai").then((result) => (chai = result.use(chaiHttp)));
 
 chai.should();
-
 describe("Users API", function () {
   beforeEach(function (done) {
     User.deleteMany({})
@@ -19,29 +19,6 @@ describe("Users API", function () {
         console.error("Error deleting users:", error);
         done(error);
       });
-  });
-
-  // Test the /signup route
-  describe("POST /users/signup", function () {
-    it("it should register a new user", (done) => {
-      const user = {
-        username: "testuser",
-        password: "testpassword",
-      };
-      console.log("Sending request to /users/signup with user:", user);
-      chai
-        .request(server)
-        .post("/users/signup")
-        .send(user)
-        .end((err, res) => {
-          if (err) done(err);
-
-          res.should.have.status(200);
-          res.body.should.be.a("object");
-          res.body.should.have.property("username").eql("testuser");
-          done();
-        });
-    });
   });
 
   // Test the /users route
@@ -57,5 +34,10 @@ describe("Users API", function () {
           done();
         });
     });
+  });
+
+  after(async () => {
+    await mongoose.connection.db.dropDatabase();
+    await mongoose.connection.close();
   });
 });

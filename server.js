@@ -1,9 +1,14 @@
+import dotenv from "dotenv";
+dotenv.config();
+const env = process.env.NODE_ENV || "development";
+const uri_tail = env === "test" ? "-test" : "";
+
+
 import express from "express";
 import swaggerUI from "swagger-ui-express";
 import mongoose from "mongoose";
 import cors from "cors";
-import dotenv from "dotenv";
-dotenv.config();
+
 const app = express();
 import swaggerDocs from "./swagger.js";
 import userRoutes from "./routes/users.js";
@@ -13,14 +18,14 @@ import User from "./models/User.js";
 
 app.use(cors());
 app.use(express.json());
-// app.use(authMiddleware);
+
+console.log("process.env.MONGO_DB_URI", process.env.MONGO_DB_URI + uri_tail);
 
 mongoose
-  .connect(
-    `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@cluster0.5td036n.mongodb.net/dashboard`
-  )
+  .connect(process.env.MONGO_DB_URI + uri_tail)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("Error with MongoDB Connection", err));
+
 app.use((req, res, next) => {
   if (req.path === "/") {
     return res.redirect("/api-docs");

@@ -71,7 +71,7 @@ router.post("/signup", async (req, res) => {
     await newUser.save();
     res.status(200).json(newUser);
   } catch (err) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: "Invalid Input" });
   }
 });
 

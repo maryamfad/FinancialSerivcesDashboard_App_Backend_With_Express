@@ -8,7 +8,7 @@ await import("chai").then((result) => (chai = result.use(chaiHttp)));
 
 chai.should();
 
-describe("Users API", function () {
+describe("Signup api", function () {
   beforeEach(function (done) {
     User.deleteMany({})
       .then((result) => {

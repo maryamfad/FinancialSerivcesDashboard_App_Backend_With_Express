@@ -11,10 +11,9 @@ import cors from "cors";
 
 const app = express();
 import swaggerDocs from "./swagger.js";
-import userRoutes from "./routes/users.js";
+import userRoutes from "./routes/user.js";
 import { authRoutes, authMiddleware } from "./routes/auth.js";
 import tradeRoutes from "./routes/trade.js";
-import User from "./models/User.js";
 
 app.use(cors());
 app.use(express.json());
@@ -30,7 +29,7 @@ app.use((req, res, next) => {
   }
   next();
 });
-app.use("/users", userRoutes);
+app.use("/user", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/trade", tradeRoutes);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
@@ -42,5 +41,4 @@ if (process.env.NODE_ENV !== "test") {
   });
 }
 
-// module.exports = app;
 export default app;

@@ -74,6 +74,9 @@ router.post("/signup", async (req, res) => {
       password,
       balance: 10000,
       portfolio: [],
+      buyingPower: 100000,
+      cash: 0,
+      change: 0,
     });
     await newUser.save();
     res.status(200).json(newUser);
@@ -158,7 +161,6 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-
 /**
  * @swagger
  *  paths:
@@ -169,7 +171,7 @@ const authMiddleware = (req, res, next) => {
  *         - BearerAuth: []
  *       tags:
  *        - Authentication
- *      
+ *
  *
  *       responses:
  *         '200':
@@ -198,13 +200,17 @@ router.post("/logout", authMiddleware, (req, res) => {
   try {
     const token = req.header("Authorization")?.replace("Bearer ", "");
     // blacklist.add(token);
-    addToBlacklist(token)
+    addToBlacklist(token);
     res.status(200).send("Logged out successfully");
   } catch (error) {
     res.status(400).send(error.message);
   }
 });
 
-
-
-export { router as authRoutes, authMiddleware, isBlacklisted, addToBlacklist, blacklist};
+export {
+  router as authRoutes,
+  authMiddleware,
+  isBlacklisted,
+  addToBlacklist,
+  blacklist,
+};

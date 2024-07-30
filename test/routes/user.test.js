@@ -77,8 +77,8 @@ describe("Users API", function () {
     });
   });
 
-  // after(async () => {
-  //   await mongoose.connection.db.dropDatabase();
-  //   await mongoose.connection.close();
-  // });
+  after(async () => {
+    await mongoose.connection.db.dropDatabase();
+    await mongoose.connection.close();
+  });
 });

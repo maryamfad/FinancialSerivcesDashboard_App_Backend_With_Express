@@ -68,13 +68,13 @@ This repository contains the backend code for my MERN stack web application, bui
 ## Usage
 Once the server is running, you can interact with the API endpoints as described in the Swagger documentation. Here are some common endpoints:
 
-POST /auth/signup: Register a new user
-POST /auth/login: Log in an existing user
-POST /auth/logout: Logut the user
-GET /user/all: Retrieve a list of all users
-GET /user/:userId: Retrieve a specific user by ID
-POST /trade/buy: Perform a buy request
-POST /trade/sell: Perform a sell request
+- POST /auth/signup: Register a new user
+- POST /auth/login: Log in an existing user
+- POST /auth/logout: Logut the user
+- GET /user/all: Retrieve a list of all users
+- GET /user/:userId: Retrieve a specific user by ID
+- POST /trade/buy: Perform a buy request
+- POST /trade/sell: Perform a sell request
 
 ## Screenshots
 <img width="941" alt="3" src="https://github.com/user-attachments/assets/9c6d836e-311e-4223-86ba-a0d7ef6ed19d">

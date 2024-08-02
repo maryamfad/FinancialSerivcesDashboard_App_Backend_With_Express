@@ -1,7 +1,10 @@
 import express from "express";
 import User from "../models/User.js";
+import Order from "../models/Order.js";
+import Portfolio from "../models/Portfolio.js";
+
 const router = express.Router();
-import {authMiddleware} from "../routes/auth.js";
+import { authMiddleware } from "../routes/auth.js";
 /**
  * @swagger
  * /trade/buy:
@@ -39,33 +42,88 @@ import {authMiddleware} from "../routes/auth.js";
  *               type: object
  *               properties:
  *                 userId:
- *                   type: string                   
+ *                   type: string
  *                 stockSymbol:
- *                   type: string                   
+ *                   type: string
  *                 quantity:
- *                   type: number                   
+ *                   type: number
  *                 totalRevenue:
- *                   type: number                  
+ *                   type: number
  *                 balance:
- *                   type: number                  
+ *                   type: number
  *       400:
  *         description: Invalid request
- *         
- *                   
- *     
+ *
+ *
+ *
  */
 router.post("/buy", authMiddleware, async (req, res) => {
-  const { userId, stockSymbol, quantity, purchasePrice } = req.body;
-  const user = await User.findById(userId);
-  const totalCost = quantity * purchasePrice;
-  if (user.balance >= totalCost) {
-    user.balance -= totalCost;
-    user.portfolio.push({ stockSymbol, quantity, purchasePrice });
-    await user.save();
-    res.json(user);
-  } else {
-    res.status(400).json({ error: "Insufficient funds" });
-  }
+	const { userId, stockSymbol, quantity, purchasePrice, orderType } =
+		req.body;
+
+	try {
+		const user = await User.findById(userId);
+		const totalCost = quantity * purchasePrice;
+		if (user.balance >= totalCost) {
+			const order = new Order({
+				userId,
+				stockSymbol,
+				tradeType: "buy",
+				orderType,
+				quantity,
+				price: purchasePrice,
+				status: "pending",
+			});
+			user.balance -= totalCost;
+			if (orderType === "market") {
+				order.status = "executed";
+			}
+			order.executedAt = new Date();
+
+			let portfolio = await Portfolio.findOne({ userId });
+			if (!portfolio) {
+				portfolio = new Portfolio({ userId, stocks: [] });
+			}
+
+			const existingStock = portfolio.stocks.find(
+				(stock) => stock.stockSymbol === stockSymbol
+			);
+			if (existingStock) {
+				existingStock.quantity += quantity;
+				existingStock.price =
+					((existingStock.quantity - quantity) * existingStock.price +
+						totalCost) /
+					existingStock.quantity;
+			} else {
+				portfolio.stocks.push({
+					stockSymbol,
+					quantity,
+					price: purchasePrice,
+				});
+			}
+
+			await Promise.all([order.save(), user.save(), portfolio.save()]);
+
+			res.json({ user, order });
+		} else {
+			res.status(400).json({ error: "Insufficient funds" });
+		}
+	} catch (error) {
+		res.status(500).json({
+			error: "An error occurred while processing the order",
+			details: error.message,
+		});
+	}
+
+	// const totalCost = quantity * purchasePrice;
+	// if (user.balance >= totalCost) {
+	//   user.balance -= totalCost;
+	//   user.portfolio.push({ stockSymbol, quantity, purchasePrice });
+	//   await user.save();
+	//   res.json(user);
+	// } else {
+	//   res.status(400).json({ error: "Insufficient funds" });
+	// }
 });
 
 /**
@@ -105,38 +163,38 @@ router.post("/buy", authMiddleware, async (req, res) => {
  *               type: object
  *               properties:
  *                 userId:
- *                   type: string                   
+ *                   type: string
  *                 stockSymbol:
- *                   type: string                   
+ *                   type: string
  *                 quantity:
- *                   type: number                   
+ *                   type: number
  *                 totalRevenue:
- *                   type: number                   
+ *                   type: number
  *                 balance:
- *                   type: number                   
+ *                   type: number
  *       400:
  *         description: Invalid request or insufficient stock quantity
- *                           
+ *
  */
 
 router.post("/sell", authMiddleware, async (req, res) => {
-  const { userId, stockSymbol, quantity, sellingPrice } = req.body;
-  const user = await User.findById(userId);
-  const stock = user.portfolio.find((s) => s.stockSymbol === stockSymbol);
-  if (stock && stock.quantity >= quantity) {
-    const totalRevenue = quantity * sellingPrice;
-    stock.quantity -= quantity;
-    if (stock.quantity === 0) {
-      user.portfolio = user.portfolio.filter(
-        (s) => s.stockSymbol !== stockSymbol
-      );
-    }
-    user.balance += totalRevenue;
-    await user.save();
-    res.json(user);
-  } else {
-    res.status(400).json({ error: "Insufficient stock quantity" });
-  }
+	const { userId, stockSymbol, quantity, sellingPrice } = req.body;
+	const user = await User.findById(userId);
+	const stock = user.portfolio.find((s) => s.stockSymbol === stockSymbol);
+	if (stock && stock.quantity >= quantity) {
+		const totalRevenue = quantity * sellingPrice;
+		stock.quantity -= quantity;
+		if (stock.quantity === 0) {
+			user.portfolio = user.portfolio.filter(
+				(s) => s.stockSymbol !== stockSymbol
+			);
+		}
+		user.balance += totalRevenue;
+		await user.save();
+		res.json(user);
+	} else {
+		res.status(400).json({ error: "Insufficient stock quantity" });
+	}
 });
 
 // module.exports = router;

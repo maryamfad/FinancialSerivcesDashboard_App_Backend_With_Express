@@ -33,6 +33,9 @@ import { authMiddleware } from "../routes/auth.js";
  *               purchasePrice:
  *                 type: number
  *                 example: 140
+ *               orderType:
+ *                 type: string
+ *                 example: "market"
  *     responses:
  *       200:
  *         description: Buy request was successful
@@ -63,6 +66,7 @@ router.post("/buy", authMiddleware, async (req, res) => {
 
 	try {
 		const user = await User.findById(userId);
+
 		const totalCost = quantity * purchasePrice;
 		if (user.balance >= totalCost) {
 			const order = new Order({
@@ -104,7 +108,7 @@ router.post("/buy", authMiddleware, async (req, res) => {
 
 			await Promise.all([order.save(), user.save(), portfolio.save()]);
 
-			res.json({ user, order });
+			res.json({ user, order, portfolio });
 		} else {
 			res.status(400).json({ error: "Insufficient funds" });
 		}
@@ -114,16 +118,6 @@ router.post("/buy", authMiddleware, async (req, res) => {
 			details: error.message,
 		});
 	}
-
-	// const totalCost = quantity * purchasePrice;
-	// if (user.balance >= totalCost) {
-	//   user.balance -= totalCost;
-	//   user.portfolio.push({ stockSymbol, quantity, purchasePrice });
-	//   await user.save();
-	//   res.json(user);
-	// } else {
-	//   res.status(400).json({ error: "Insufficient funds" });
-	// }
 });
 
 /**

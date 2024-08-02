@@ -9,8 +9,8 @@ This repository contains the backend code for my MERN stack web application, bui
 - [Installation and Setup](#installation-and-setup)
 - [Usage](#usage)
 - [API Documentation](#api-documentation)
-- [Contributing](#contributing)
-- [License](#license)
+- [Usage](#usage)
+- [Screenshots](#screenshots)
 - [Contact](#contact)
 
 ## Features
@@ -65,8 +65,22 @@ This repository contains the backend code for my MERN stack web application, bui
    ```bash
    npm start
    ```
+## Usage
+Once the server is running, you can interact with the API endpoints as described in the Swagger documentation. Here are some common endpoints:
 
-##Screenshots
+POST /auth/signup: Register a new user
+POST /auth/login: Log in an existing user
+POST /auth/logout: Logut the user
+GET /user/all: Retrieve a list of all users
+GET /user/:userId: Retrieve a specific user by ID
+POST /trade/buy: Perform a buy request
+POST /trade/sell: Perform a sell request
+
+## Screenshots
 <img width="941" alt="3" src="https://github.com/user-attachments/assets/9c6d836e-311e-4223-86ba-a0d7ef6ed19d">
 
 <img width="943" alt="2" src="https://github.com/user-attachments/assets/48996fe3-a9a5-46fe-918b-0fbcf6867094">
+
+## Contact
+
+If you have any questions, please reach out to me at [maryamfadaee@gmail.com](mailto:maryamfadaee@gmail.com).

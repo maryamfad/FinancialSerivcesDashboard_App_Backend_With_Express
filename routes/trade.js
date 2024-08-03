@@ -148,6 +148,9 @@ router.post("/buy", authMiddleware, async (req, res) => {
  *               sellingPrice:
  *                 type: number
  *                 example: 120
+ *               orderType:
+ *                 type: string
+ *                 example: "market"
  *     responses:
  *       200:
  *         description: Sell request was successful

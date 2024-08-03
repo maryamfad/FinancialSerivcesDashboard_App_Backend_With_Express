@@ -170,26 +170,83 @@ router.post("/buy", authMiddleware, async (req, res) => {
  *         description: Invalid request or insufficient stock quantity
  *
  */
-
 router.post("/sell", authMiddleware, async (req, res) => {
-	const { userId, stockSymbol, quantity, sellingPrice } = req.body;
-	const user = await User.findById(userId);
-	const stock = user.portfolio.find((s) => s.stockSymbol === stockSymbol);
-	if (stock && stock.quantity >= quantity) {
-		const totalRevenue = quantity * sellingPrice;
-		stock.quantity -= quantity;
-		if (stock.quantity === 0) {
-			user.portfolio = user.portfolio.filter(
-				(s) => s.stockSymbol !== stockSymbol
-			);
+	const { userId, stockSymbol, quantity, sellingPrice, orderType } = req.body;
+
+	try {
+		const user = await User.findById(userId);
+		const portfolio = await Portfolio.findOne({ userId });
+
+		if (!portfolio) {
+			return res.status(400).json({ error: "No portfolio found" });
 		}
-		user.balance += totalRevenue;
-		await user.save();
-		res.json(user);
-	} else {
-		res.status(400).json({ error: "Insufficient stock quantity" });
+
+		const existingStock = portfolio.stocks.find(
+			(stock) => stock.stockSymbol === stockSymbol
+		);
+
+		if (!existingStock || existingStock.quantity < quantity) {
+			return res
+				.status(400)
+				.json({ error: "Insufficient stock quantity" });
+		}
+
+		const totalSaleValue = quantity * sellingPrice;
+
+		const order = new Order({
+			userId,
+			stockSymbol,
+			tradeType: "sell",
+			orderType,
+			quantity,
+			price: sellingPrice,
+			status: "pending",
+		});
+
+		if (orderType === "market") {
+			order.status = "executed";
+			order.executedAt = new Date();
+		}
+
+		user.balance += totalSaleValue;
+
+		if (existingStock.quantity === quantity) {
+			portfolio.stocks = portfolio.stocks.filter(
+				(stock) => stock.stockSymbol !== stockSymbol
+			);
+		} else {
+			existingStock.quantity -= quantity;
+		}
+
+		await Promise.all([order.save(), portfolio.save(), user.save()]);
+
+		res.json({ user, order });
+	} catch (error) {
+		res.status(500).json({
+			error: "An error occurred while processing the sell order",
+			details: error.message,
+		});
 	}
 });
+// router.post("/sell", authMiddleware, async (req, res) => {
+// 	const { userId, stockSymbol, quantity, sellingPrice } = req.body;
+// 	const user = await User.findById(userId);
+// 	const stock = user.portfolio.find((s) => s.stockSymbol === stockSymbol);
+// 	if (stock && stock.quantity >= quantity) {
+// 		const totalRevenue = quantity * sellingPrice;
+// 		stock.quantity -= quantity;
+// 		if (stock.quantity === 0) {
+// 			user.portfolio = user.portfolio.filter(
+// 				(s) => s.stockSymbol !== stockSymbol
+// 			);
+// 		}
+// 		user.balance += totalRevenue;
+// 		await user.save();
+// 		res.json(user);
+// 	} else {
+// 		res.status(400).json({ error: "Insufficient stock quantity" });
+// 	}
+// });
 
 // module.exports = router;
 export default router;

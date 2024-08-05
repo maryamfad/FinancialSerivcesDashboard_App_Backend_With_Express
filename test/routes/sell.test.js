@@ -122,11 +122,8 @@ describe("POST /trade/sell", function () {
 			});
 	});
 
-	// after(function (done) {
-	//   mongoose.connection
-	//     .dropDatabase()
-	//     .then(() => mongoose.connection.close())
-	//     .then(() => done())
-	//     .catch(done);
-	// });
+	after(async () => {
+		await mongoose.connection.db.dropDatabase();
+		await mongoose.connection.close();
+	  });
 });

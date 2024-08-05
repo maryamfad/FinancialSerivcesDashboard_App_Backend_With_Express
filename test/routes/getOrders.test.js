@@ -3,7 +3,7 @@ import User from "../../models/User.js";
 import Order from "../../models/Order.js";
 import server from "../../server.js";
 import jwt from "jsonwebtoken";
-import { blacklist, addToBlacklist } from "../../routes/auth.js";
+import mongoose from "mongoose";
 
 let chai;
 await import("chai").then((result) => (chai = result.use(chaiHttp)));
@@ -113,8 +113,8 @@ describe("GET /trade/orders/:userId", () => {
 				done();
 			});
 	});
-	after(async () => {
-		await User.deleteMany({});
-		await Order.deleteMany({});
-	});
+    after(async () => {
+        await mongoose.connection.db.dropDatabase();
+        await mongoose.connection.close();
+      });
 });

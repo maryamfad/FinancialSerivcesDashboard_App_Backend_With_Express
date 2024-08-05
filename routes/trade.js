@@ -232,6 +232,32 @@ router.post("/sell", authMiddleware, async (req, res) => {
 	}
 });
 
+
+/**
+ * @swagger
+ * /trade/orders/{userId}:
+ *   get:
+ *     summary: Get the orders by id
+ *     security:
+ *       - BearerAuth: []
+ *     tags: 
+ *       - Trade
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user id
+ *                 
+ *     responses:
+ *       200:
+ *         description: An order information
+ *       401:
+ *         description: There is no order
+ *       500:
+ *         description: server error
+ */
 router.get('/orders/:userId', authMiddleware, async (req, res) => {
   const { userId } = req.params;
 

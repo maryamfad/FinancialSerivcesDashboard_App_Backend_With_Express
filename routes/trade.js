@@ -231,25 +231,24 @@ router.post("/sell", authMiddleware, async (req, res) => {
 		});
 	}
 });
-// router.post("/sell", authMiddleware, async (req, res) => {
-// 	const { userId, stockSymbol, quantity, sellingPrice } = req.body;
-// 	const user = await User.findById(userId);
-// 	const stock = user.portfolio.find((s) => s.stockSymbol === stockSymbol);
-// 	if (stock && stock.quantity >= quantity) {
-// 		const totalRevenue = quantity * sellingPrice;
-// 		stock.quantity -= quantity;
-// 		if (stock.quantity === 0) {
-// 			user.portfolio = user.portfolio.filter(
-// 				(s) => s.stockSymbol !== stockSymbol
-// 			);
-// 		}
-// 		user.balance += totalRevenue;
-// 		await user.save();
-// 		res.json(user);
-// 	} else {
-// 		res.status(400).json({ error: "Insufficient stock quantity" });
-// 	}
-// });
 
-// module.exports = router;
+router.get('/orders/:userId', authMiddleware, async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const orders = await Order.find({ userId });
+
+    if (!orders || orders.length === 0) {
+      return res.status(404).json({ message: 'No orders found for this user' });
+    }
+
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({
+      message: 'An error occurred while retrieving the orders',
+      details: error.message,
+    });
+  }
+});
+
 export default router;

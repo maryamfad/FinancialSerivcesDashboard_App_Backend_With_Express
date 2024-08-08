@@ -279,48 +279,6 @@ router.get('/orders/:userId', authMiddleware, async (req, res) => {
 
 
 
-/**
- * @swagger
- * /trade/portfolio/{userId}:
- *   get:
- *     summary: Get the portfolio by id
- *     security:
- *       - BearerAuth: []
- *     tags: 
- *       - Trade
- *     parameters:
- *       - in: path
- *         name: userId
- *         schema:
- *           type: string
- *         required: true
- *         description: The user id
- *                 
- *     responses:
- *       200:
- *         description: An order information
- *       401:
- *         description: There is no portfolio
- *       500:
- *         description: server error
- */
-router.get('/portfolio/:userId', authMiddleware, async (req, res) => {
-	const { userId } = req.params;
-  
-	try {
-	  const portfolio = await Portfolio.find({ userId });
-  
-	  if (!portfolio || portfolio.length === 0) {
-		return res.status(401).json({ message: 'No portfolio found for this user' });
-	  }
-  
-	  res.json(portfolio);
-	} catch (error) {
-	  res.status(500).json({
-		message: 'An error occurred while retrieving the portfolio',
-		details: error.message,
-	  });
-	}
-  });
+
   
   export default router;

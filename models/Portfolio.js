@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
+const PortfolioPerformanceSchema = new Schema({
+  date: { type: Date, default: Date.now },
+  value: { type: Number, required: true }
+});
 const StockSchema = new Schema({
   stockSymbol: {
     type: String,
@@ -23,6 +27,7 @@ const PortfolioSchema = new Schema({
     required: true
   },
   stocks: [StockSchema],
+  performance: [PortfolioPerformanceSchema],
   createdAt: {
     type: Date,
     default: Date.now

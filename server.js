@@ -14,6 +14,7 @@ import swaggerDocs from "./swagger.js";
 import userRoutes from "./routes/user.js";
 import { authRoutes, authMiddleware } from "./routes/auth.js";
 import tradeRoutes from "./routes/trade.js";
+import portfolioRoutes from "./routes/portfolio.js";
 
 app.use(cors());
 app.use(express.json());
@@ -32,6 +33,7 @@ app.use((req, res, next) => {
 app.use("/user", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/trade", tradeRoutes);
+app.use("/portfolio", portfolioRoutes);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 const PORT = process.env.PORT || 5000;

@@ -15,8 +15,8 @@ function checkDatabaseConnection() {
 			);
 	}
 }
-cron.schedule("*/5 * * * *", async () => {
-	console.log("Cron job executed every 5 minutes");
+cron.schedule("*/1 * * * *", async () => {
+	console.log("Cron job executed every 1 minutes");
 	try {
 		await checkDatabaseConnection();
 		const portfolios = await Portfolio.find();

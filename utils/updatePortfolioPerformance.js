@@ -22,7 +22,7 @@ async function updatePortfolioPerformance(portfolioId) {
 		}
 
 		portfolio.performance.push({ value: totalValue, date: new Date() });
-		portfolio.updatedAt = Date.now();
+		portfolio.updatedAt = new Date();
 
 		await portfolio.save();
 

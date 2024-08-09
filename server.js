@@ -15,7 +15,6 @@ import userRoutes from "./routes/user.js";
 import { authRoutes, authMiddleware } from "./routes/auth.js";
 import tradeRoutes from "./routes/trade.js";
 import portfolioRoutes from "./routes/portfolio.js";
-import "./jobs/Scheduler.js";
 
 app.use(cors());
 app.use(express.json());
@@ -25,6 +24,7 @@ mongoose
 	.then(() => console.log("MongoDB connected"))
 	.catch((err) => console.error("Error with MongoDB Connection", err));
 
+import "./jobs/Scheduler.js";
 app.use((req, res, next) => {
 	if (req.path === "/") {
 		return res.redirect("/api-docs");

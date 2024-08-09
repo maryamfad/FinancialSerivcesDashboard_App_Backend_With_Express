@@ -1,4 +1,5 @@
 import cron from "node-cron";
+import mongoose from "mongoose";
 import Portfolio from "../models/Portfolio.js";
 import updatePortfolioPerformance from "../utils/updatePortfolioPerformance.js";
 function checkDatabaseConnection() {

@@ -16,10 +16,9 @@ const fetchCurrentMarketValue = async (symbol) => {
 		const data = await response.json();
 		if (!Array.isArray(data) || data.length === 0 || !data[0].price) {
 			throw new Error(data["Error Message"]);
+		} else {
+			return data[0].price;
 		}
-		console.log("data", data);
-
-		return data[0].price;
 	} catch (error) {
 		if (error.name === "FetchError") {
 			console.error("Network error or timeout occurred:", error.message);

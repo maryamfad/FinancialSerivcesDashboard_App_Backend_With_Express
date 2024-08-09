@@ -20,13 +20,35 @@ cron.schedule("*/1 * * * *", async () => {
 	try {
 		await checkDatabaseConnection();
 		const portfolios = await Portfolio.find();
-
-		for (const portfolio of portfolios) {
-			await updatePortfolioPerformance(portfolio._id);
+		if (portfolios.length === 0) {
+			console.warn("No portfolios found to update.");
+			return;
 		}
+		for (const portfolio of portfolios) {
+			try {
+				await updatePortfolioPerformance(portfolio._id);
+				console.log(`Portfolio ${portfolio._id} updated successfully.`);
+			} catch (updateError) {
+				console.error(
+					`Failed to update portfolio ${portfolio._id}:`,
+					updateError
+				);
+			}
+		}
+		console.log("portfolio._id", portfolio._id);
 
 		console.log("All portfolios updated successfully.");
 	} catch (error) {
-		console.error("Failed to update portfolios:", error);
+		if (error.message.includes("database connection")) {
+			console.error(
+				"Database connection error. Ensure the database is running and accessible.",
+				error
+			);
+		} else {
+			console.error(
+				"An error occurred while updating portfolios:",
+				error
+			);
+		}
 	}
 });

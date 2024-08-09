@@ -12,15 +12,31 @@ async function updatePortfolioPerformance(portfolioId) {
 		let totalValue = 0;
 
 		for (const stock of portfolio.stocks) {
-			const currentValue = await fetchCurrentMarketValue(
-				stock.stockSymbol
-			);
-			if (currentValue !== null) {
-				stock.currentValue = currentValue;
-				totalValue += currentValue * stock.quantity;
+			try {
+				const currentValue = await fetchCurrentMarketValue(
+					stock.stockSymbol
+				);
+
+				if (currentValue !== null) {
+					stock.currentValue = currentValue;
+					totalValue += currentValue * stock.quantity;
+				} else {
+					console.warn(
+						`Failed to fetch market value for stock: ${stock.stockSymbol}`
+					);
+				}
+			} catch (fetchError) {
+				console.error(
+					`Error fetching market value for stock: ${stock.stockSymbol}`,
+					fetchError
+				);
 			}
 		}
-
+		if (totalValue === 0) {
+			console.warn(
+				`Total value of portfolio ${portfolioId} is zero. Ensure stock data is accurate.`
+			);
+		}
 		portfolio.performance.push({ value: totalValue, date: new Date() });
 		portfolio.updatedAt = new Date();
 
@@ -29,7 +45,6 @@ async function updatePortfolioPerformance(portfolioId) {
 		return portfolio;
 	} catch (error) {
 		console.error(`Failed to update portfolio ${portfolioId}:`, error);
-		throw error;
 	}
 }
 

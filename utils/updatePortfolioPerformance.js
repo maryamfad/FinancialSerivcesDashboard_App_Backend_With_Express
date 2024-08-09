@@ -17,11 +17,15 @@ async function updatePortfolioPerformance(portfolioId) {
 					stock.stockSymbol
 				);
 
-				if (currentValue !== null) {
+				if (
+					currentValue !== null &&
+					typeof currentValue === "number" &&
+					!isNaN(currentValue)
+				) {
 					stock.currentValue = currentValue;
 					totalValue += currentValue * stock.quantity;
 				} else {
-					console.warn(
+					throw new Error(
 						`Failed to fetch market value for stock: ${stock.stockSymbol}`
 					);
 				}
@@ -33,10 +37,11 @@ async function updatePortfolioPerformance(portfolioId) {
 			}
 		}
 		if (totalValue === 0) {
-			console.warn(
+			throw new Error(
 				`Total value of portfolio ${portfolioId} is zero. Ensure stock data is accurate.`
 			);
 		}
+
 		portfolio.performance.push({ value: totalValue, date: new Date() });
 		portfolio.updatedAt = new Date();
 

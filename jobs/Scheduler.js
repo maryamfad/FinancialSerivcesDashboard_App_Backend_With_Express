@@ -15,7 +15,7 @@ function checkDatabaseConnection() {
 			);
 	}
 }
-cron.schedule("*/1 * * * *", async () => {
+cron.schedule("*/30 * * * *", async () => {
 	console.log("Cron job executed every 1 minutes");
 	try {
 		await checkDatabaseConnection();

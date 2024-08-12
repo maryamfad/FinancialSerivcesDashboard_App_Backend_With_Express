@@ -97,4 +97,43 @@ router.put("/update/:userId", authMiddleware, async (req, res) => {
 		});
 	}
 });
+
+router.get("/holdings/:userId", authMiddleware, async (req, res) => {
+	try {
+		const { userId } = req.params;
+
+		const portfolio = await Portfolio.findOne({ userId });
+
+		if (!portfolio || portfolio.stocks.length === 0) {
+			return res
+				.status(404)
+				.json({ message: "No portfolio found for this user" });
+		}
+
+		const totalPortfolioValue = portfolio.stocks.reduce((acc, stock) => {
+			return acc + stock.quantity * stock.price;
+		}, 0);
+
+		const holdingsWithPercentages = portfolio.stocks.map((stock) => {
+			const holdingValue = stock.quantity * stock.price;
+			const holdingPercentage =
+				(holdingValue / totalPortfolioValue) * 100;
+
+			return {
+				stockSymbol: stock.stockSymbol,
+				quantity: stock.quantity,
+				value: holdingValue,
+				percentage: holdingPercentage.toFixed(2),
+			};
+		});
+
+		res.json(holdingsWithPercentages);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({
+			error: "An error occurred while retrieving the holdings",
+		});
+	}
+});
+
 export default router;

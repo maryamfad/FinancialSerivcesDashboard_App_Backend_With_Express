@@ -98,6 +98,32 @@ router.put("/update/:userId", authMiddleware, async (req, res) => {
 	}
 });
 
+/**
+ * @swagger
+ * /holdings/{userId}:
+ *   get:
+ *     summary: get Holdings by id
+ *     security:
+ *       - BearerAuth: []
+ *     tags:
+ *       - Trade
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user id
+ *
+ *     responses:
+ *       200:
+ *         description: A list of holdings
+ *       401:
+ *         description: There is no holding
+ *       500:
+ *         description: server error
+ */
+
 router.get("/holdings/:userId", authMiddleware, async (req, res) => {
 	try {
 		const { userId } = req.params;

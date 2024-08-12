@@ -4,7 +4,7 @@ const fetchCurrentMarketValue = async (symbol) => {
 	}
 	console.log(
 		"FINANCIAL_MODELING_PREP_API_KEY:",
-		process.env.FINANCIAL_MODELING_PREP
+		process.env.FINANCIAL_MODELING_PREP //for testing purposes
 	);
 	const url = `https://financialmodelingprep.com/api/v3/quote-short/${symbol}?apikey=${process.env.FINANCIAL_MODELING_PREP}`;
 	try {

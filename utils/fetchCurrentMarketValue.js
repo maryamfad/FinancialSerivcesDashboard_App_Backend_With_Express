@@ -4,9 +4,9 @@ const fetchCurrentMarketValue = async (symbol) => {
 	}
 	console.log(
 		"FINANCIAL_MODELING_PREP_API_KEY:",
-		process.env.FINANCIAL_MODELING_PREP_API_KEY //for testing purposes
+		process.env.FINANCIAL_MODELING_PREP
 	);
-	const url = `https://financialmodelingprep.com/api/v3/quote-short/${symbol}?apikey=${process.env.FINANCIAL_MODELING_PREP_API_KEY}`;
+	const url = `https://financialmodelingprep.com/api/v3/quote-short/${symbol}?apikey=${process.env.FINANCIAL_MODELING_PREP}`;
 	try {
 		const response = await fetch(url, {
 			method: "GET",

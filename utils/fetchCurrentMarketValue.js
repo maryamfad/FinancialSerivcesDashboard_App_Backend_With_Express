@@ -2,7 +2,7 @@ const fetchCurrentMarketValue = async (symbol) => {
 	if (!symbol || typeof symbol !== "string") {
 		throw new Error("Invalid stock symbol provided");
 	}
-
+	console.log('FINANCIAL_MODELING_PREP_API_KEY:', process.env.FINANCIAL_MODELING_PREP_API_KEY);
 	const url = `https://financialmodelingprep.com/api/v3/quote-short/${symbol}?apikey=${process.env.FINANCIAL_MODELING_PREP_API_KEY}`;
 	try {
 		const response = await fetch(url, {

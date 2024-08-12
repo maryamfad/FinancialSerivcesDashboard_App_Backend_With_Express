@@ -9,7 +9,7 @@ function checkDatabaseConnection() {
 	} else {
 		return mongoose
 			.connect(process.env.MONGO_DB_URI)
-			.then(() => console.log("MongoDB connected"))
+			.then(() => console.log("MongoDB connected in checkDatabaseConnection()"))
 			.catch((err) =>
 				console.error("Error with MongoDB Connection", err)
 			);

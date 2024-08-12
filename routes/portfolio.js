@@ -111,6 +111,9 @@ router.get("/holdings/:userId", authMiddleware, async (req, res) => {
 		}
 
 		const totalPortfolioValue = portfolio.stocks.reduce((acc, stock) => {
+			if (!stock.quantity || !stock.price) {
+				throw new Error('Stock data is incomplete');
+			}
 			return acc + stock.quantity * stock.price;
 		}, 0);
 

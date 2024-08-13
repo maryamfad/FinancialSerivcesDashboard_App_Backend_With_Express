@@ -53,7 +53,7 @@ router.get("/:userId", authMiddleware, async (req, res) => {
 
 /**
  * @swagger
- * portfolio/update/{userId}:
+ * /portfolio/update/{userId}:
  *   get:
  *     summary: Update the portfolio by id
  *     security:

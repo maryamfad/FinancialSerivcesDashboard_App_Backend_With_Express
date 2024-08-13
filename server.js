@@ -37,7 +37,7 @@ console.log(
 	process.env.MONGO_DB_URI //for testing purposes
 );
 
-// import "./jobs/Scheduler.js";
+import "./jobs/Scheduler.js";
 app.use((req, res, next) => {
 	if (req.path === "/") {
 		return res.redirect("/api-docs");

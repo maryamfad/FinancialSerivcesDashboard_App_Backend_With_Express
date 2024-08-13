@@ -33,8 +33,8 @@ console.log(
 );
 
 console.log(
-	"JWT_SECRET(from server.js):",
-	process.env.JWT_SECRET //for testing purposes
+	"MONGO_DB_URI(from server.js):",
+	process.env.MONGO_DB_URI //for testing purposes
 );
 
 // import "./jobs/Scheduler.js";

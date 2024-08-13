@@ -11,4 +11,4 @@ const watchlistSchema = new mongoose.Schema({
   });
   
   const Watchlist = mongoose.model('Watchlist', watchlistSchema);
-export default Order;
+export default Watchlist;

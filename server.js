@@ -7,7 +7,6 @@ import express from "express";
 import swaggerUI from "swagger-ui-express";
 import mongoose from "mongoose";
 import cors from "cors";
-// import "./jobs/updatePortfolios.js"
 
 const app = express();
 import swaggerDocs from "./swagger.js";
@@ -15,6 +14,7 @@ import userRoutes from "./routes/user.js";
 import { authRoutes, authMiddleware } from "./routes/auth.js";
 import tradeRoutes from "./routes/trade.js";
 import portfolioRoutes from "./routes/portfolio.js";
+import watchlistRoutes from "./routes/watchlist.js";
 
 app.use(cors());
 app.use(express.json());
@@ -23,21 +23,9 @@ mongoose
 	.connect(process.env.MONGO_DB_URI + uri_tail)
 	.then(() => console.log("MongoDB connected"))
 	.catch((err) => console.error("Error with MongoDB Connection", err));
-console.log(
-	"FINANCIAL_MODELING_PREP_API_KEY(from server.js):",
-	process.env.FINANCIAL_MODELING_PREP_API_KEY //for testing purposes
-);
-console.log(
-	"JWT_SECRET(from server.js):",
-	process.env.JWT_SECRET //for testing purposes
-);
-
-console.log(
-	"MONGO_DB_URI(from server.js):",
-	process.env.MONGO_DB_URI //for testing purposes
-);
 
 import "./jobs/Scheduler.js";
+
 app.use((req, res, next) => {
 	if (req.path === "/") {
 		return res.redirect("/api-docs");
@@ -48,6 +36,7 @@ app.use("/user", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/trade", tradeRoutes);
 app.use("/portfolio", portfolioRoutes);
+app.use("/watchlist", watchlistRoutes);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 const PORT = process.env.PORT || 5000;

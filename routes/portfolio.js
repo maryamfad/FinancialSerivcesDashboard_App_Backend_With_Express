@@ -7,7 +7,7 @@ import { authMiddleware } from "../routes/auth.js";
 
 /**
  * @swagger
- * /trade/portfolio/{userId}:
+ * /portfolio/{userId}:
  *   get:
  *     summary: Get the portfolio by id
  *     security:
@@ -59,7 +59,7 @@ router.get("/:userId", authMiddleware, async (req, res) => {
  *     security:
  *       - BearerAuth: []
  *     tags:
- *       - Trade
+ *       - Portfolio
  *     parameters:
  *       - in: path
  *         name: userId
@@ -106,7 +106,7 @@ router.put("/update/:userId", authMiddleware, async (req, res) => {
  *     security:
  *       - BearerAuth: []
  *     tags:
- *       - Trade
+ *       - Portfolio
  *     parameters:
  *       - in: path
  *         name: userId

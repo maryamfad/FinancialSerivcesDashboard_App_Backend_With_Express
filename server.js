@@ -23,11 +23,11 @@ mongoose
 	.connect(process.env.MONGO_DB_URI + uri_tail)
 	.then(() => console.log("MongoDB connected"))
 	.catch((err) => console.error("Error with MongoDB Connection", err));
-	console.log(
-		"FINANCIAL_MODELING_PREP_API_KEY:(from server.js)",
-		process.env.FINANCIAL_MODELING_PREP_API_KEY //for testing purposes
-	);
-import "./jobs/Scheduler.js";
+console.log(
+	"FINANCIAL_MODELING_PREP_API_KEY:(from server.js)",
+	process.env.FINANCIAL_MODELING_PREP_API_KEY //for testing purposes
+);
+// import "./jobs/Scheduler.js";
 app.use((req, res, next) => {
 	if (req.path === "/") {
 		return res.redirect("/api-docs");

@@ -3,7 +3,6 @@ const router = express.Router();
 import Watchlist from "../models/Watchlist.js";
 import { authMiddleware } from "../routes/auth.js";
 
-
 /**
  * @swagger
  * /watchlist/add/{userId}:
@@ -79,6 +78,33 @@ router.post("/add/:userId", authMiddleware, async (req, res) => {
 	}
 });
 
+router.post("/remove/:userId", async (req, res) => {
+	try {
+		const { userId } = req.params;
+		const { stockSymbol } = req.body;
+
+		let watchlist = await Watchlist.findOne({ userId });
+
+		if (watchlist) {
+			watchlist.stocks = watchlist.stocks.filter(
+				(stock) => stock.stockSymbol !== stockSymbol
+			);
+
+			await watchlist.save();
+			res.status(200).json({ message: "Stock removed from watchlist", watchlist });
+		} else {
+			res.status(404).json({
+				message: "No watchlist found for this user",
+			});
+		}
+	} catch (error) {
+		res.status(500).json({
+			error: "An error occurred while removing from the watchlist",
+			details: error.message,
+		});
+	}
+});
+
 /**
  * @swagger
  * /watchlist/{userId}/:
@@ -100,19 +126,24 @@ router.post("/add/:userId", authMiddleware, async (req, res) => {
  *         description: A list of the sotcks in the watchlist
  */
 
-router.get('/:userId',authMiddleware, async (req, res) => {
-    try {
-      const { userId } = req.params;
-  
-      const watchlist = await Watchlist.findOne({ userId });
-  
-      if (watchlist) {
-        res.json(watchlist);
-      } else {
-        res.status(404).json({ message: 'No watchlist found for this user' });
-      }
-    } catch (error) {
-      res.status(500).json({ error: 'An error occurred while retrieving the watchlist', details: error.message });
-    }
-  });
+router.get("/:userId", authMiddleware, async (req, res) => {
+	try {
+		const { userId } = req.params;
+
+		const watchlist = await Watchlist.findOne({ userId });
+
+		if (watchlist) {
+			res.json(watchlist);
+		} else {
+			res.status(404).json({
+				message: "No watchlist found for this user",
+			});
+		}
+	} catch (error) {
+		res.status(500).json({
+			error: "An error occurred while retrieving the watchlist",
+			details: error.message,
+		});
+	}
+});
 export default router;

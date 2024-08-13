@@ -1,4 +1,4 @@
-const fetchCurrentMarketValue = async (symbol) => {
+const getOrderQuote = async (symbol) => {
 	if (!symbol || typeof symbol !== "string") {
 		throw new Error("Invalid stock symbol provided");
 	}
@@ -28,4 +28,4 @@ const fetchCurrentMarketValue = async (symbol) => {
 		}
 	}
 };
-export default fetchCurrentMarketValue;
+export default getOrderQuote;

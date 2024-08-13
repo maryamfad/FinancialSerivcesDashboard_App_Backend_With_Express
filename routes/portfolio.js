@@ -53,7 +53,7 @@ router.get("/:userId", authMiddleware, async (req, res) => {
 
 /**
  * @swagger
- * /update/{userId}:
+ * portfolio/update/{userId}:
  *   get:
  *     summary: Update the portfolio by id
  *     security:
@@ -100,7 +100,7 @@ router.put("/update/:userId", authMiddleware, async (req, res) => {
 
 /**
  * @swagger
- * /holdings/{userId}:
+ * /portfolio/holdings/{userId}:
  *   get:
  *     summary: get Holdings by id
  *     security:

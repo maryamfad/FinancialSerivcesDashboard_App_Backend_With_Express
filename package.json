@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "cross-env NODE_ENV=test mocha 'test/routes/user.test.js'",
+    "test": "cross-env NODE_ENV=test mocha 'test/routes/getWatchlist.test.js'",
     "dev": "nodemon server.js"
   },
   "author": "",

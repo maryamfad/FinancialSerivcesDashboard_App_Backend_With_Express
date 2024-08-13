@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import Watchlist from "../models/Watchlist.js";
 import { authMiddleware } from "../routes/auth.js";
+import { getOrderQuote } from "../utils/getOrderQuote.js";
 
 /**
  * @swagger
@@ -58,7 +59,14 @@ router.post("/add/:userId", authMiddleware, async (req, res) => {
 		);
 
 		if (!stockExists) {
-			watchlist.stocks.push({ stockSymbol });
+			const stockInfos = await getOrderQuote(stockSymbol);
+			watchlist.stocks.push({
+				stockSymbol,
+				price: stockInfos.price,
+				changesPercentage: stockInfos.changesPercentage,
+				change: stockInfos.change,
+				marketCap: stockInfos.marketCap,
+			});
 			await watchlist.save();
 			res.status(201).json({
 				message: "Stock added to watchlist",
@@ -131,7 +139,10 @@ router.post("/remove/:userId", async (req, res) => {
 			);
 
 			await watchlist.save();
-			res.status(200).json({ message: "Stock removed from watchlist", watchlist });
+			res.status(200).json({
+				message: "Stock removed from watchlist",
+				watchlist,
+			});
 		} else {
 			res.status(404).json({
 				message: "No watchlist found for this user",

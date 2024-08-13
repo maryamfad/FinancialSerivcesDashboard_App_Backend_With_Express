@@ -79,4 +79,19 @@ router.post("/add/:userId", authMiddleware, async (req, res) => {
 	}
 });
 
+router.get('/:userId',authMiddleware, async (req, res) => {
+    try {
+      const { userId } = req.params;
+  
+      const watchlist = await Watchlist.findOne({ userId });
+  
+      if (watchlist) {
+        res.json(watchlist);
+      } else {
+        res.status(404).json({ message: 'No watchlist found for this user' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'An error occurred while retrieving the watchlist', details: error.message });
+    }
+  });
 export default router;

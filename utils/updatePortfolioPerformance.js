@@ -1,5 +1,5 @@
 import Portfolio from "../models/Portfolio.js";
-import fetchCurrentMarketValue from "../utils/fetchCurrentMarketValue.js";
+import fetchCurrentMarketValue from "../routes/fetchCurrentMarketValue.js";
 
 async function updatePortfolioPerformance(portfolioId) {
 	try {

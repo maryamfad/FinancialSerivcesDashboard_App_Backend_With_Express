@@ -12,11 +12,11 @@ const fetchCurrentMarketValue = async (symbol) => {
 			method: "GET",
 		});
 
-		if (!response.ok) {
-			throw new Error(
-				`HTTP error! Status: ${response.status} - ${response.statusText}`
-			);
-		}
+		// if (!response.ok) {
+		// 	throw new Error(
+		// 		`HTTP error! Status: ${response.status} - ${response.statusText}`
+		// 	);
+		// }
 		const data = await response.json();
 		if (!Array.isArray(data) || data.length === 0 || !data[0].price) {
 			throw new Error(data["Error Message"]);

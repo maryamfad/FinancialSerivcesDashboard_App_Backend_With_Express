@@ -35,7 +35,8 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           MONGO_DB_URI: ${{ secrets.MONGO_DB_URI }}
           FINANCIAL_MODELING_PREP_API_KEY: ${{ secrets.FINANCIAL_MODELING_PREP_API_KEY }}
-          NODE_ENV: ${{ secrets.NODE_ENV}}
+          NODE_ENV: ${{ secrets.NODE_ENV }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
           echo "machine api.heroku.com login ${{ secrets.HEROKU_EMAIL }} password ${{ secrets.HEROKU_API_KEY }}" > ~/.netrc
           echo "machine git.heroku.com login ${{ secrets.HEROKU_EMAIL }} password ${{ secrets.HEROKU_API_KEY }}" >> ~/.netrc

@@ -3,6 +3,49 @@ const router = express.Router();
 import Watchlist from "../models/Watchlist.js";
 import { authMiddleware } from "../routes/auth.js";
 
+
+/**
+ * @swagger
+ * /watchlist/add/{userId}:
+ *   post:
+ *     summary: Add a stock to Watchlist
+ *     security:
+ *       - BearerAuth: []
+ *     tags:
+ *       - Watchlist
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user id
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               stockSymbol:
+ *                 type: string
+ *                 example: "AAPL"
+ *     responses:
+ *       200:
+ *         description: Buy request was successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 watchlist:
+ *                   type: object
+ *       400:
+ *         description: Invalid request
+ *
+ *
+ *
+ */
 router.post("/add/:userId", authMiddleware, async (req, res) => {
 	try {
 		const { userId } = req.params;
@@ -14,7 +57,6 @@ router.post("/add/:userId", authMiddleware, async (req, res) => {
 			watchlist = new Watchlist({ userId, stocks: [] });
 		}
 
-		// Check if the stock is already in the watchlist
 		const stockExists = watchlist.stocks.some(
 			(stock) => stock.stockSymbol === stockSymbol
 		);

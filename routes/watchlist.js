@@ -79,6 +79,27 @@ router.post("/add/:userId", authMiddleware, async (req, res) => {
 	}
 });
 
+/**
+ * @swagger
+ * /watchlist/{userId}/:
+ *   get:
+ *     summary: Retrieve the list of the sotcks in the watchlist
+ *     security:
+ *       - BearerAuth: []
+ *     tags:
+ *      - Watchlist
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user id
+ *     responses:
+ *       200:
+ *         description: A list of the sotcks in the watchlist
+ */
+
 router.get('/:userId',authMiddleware, async (req, res) => {
     try {
       const { userId } = req.params;

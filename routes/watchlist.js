@@ -31,7 +31,7 @@ import { authMiddleware } from "../routes/auth.js";
  *                 example: "AAPL"
  *     responses:
  *       200:
- *         description: Buy request was successful
+ *         description: add a stock to the watchlist was successful
  *         content:
  *           application/json:
  *             schema:
@@ -41,9 +41,6 @@ import { authMiddleware } from "../routes/auth.js";
  *                   type: object
  *       400:
  *         description: Invalid request
- *
- *
- *
  */
 router.post("/add/:userId", authMiddleware, async (req, res) => {
 	try {
@@ -77,6 +74,49 @@ router.post("/add/:userId", authMiddleware, async (req, res) => {
 		});
 	}
 });
+
+/**
+ * @swagger
+ * /watchlist/remove/{userId}:
+ *   post:
+ *     summary: remove a stock from the watchlist
+ *     security:
+ *       - BearerAuth: []
+ *     tags:
+ *       - Watchlist
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user id
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               stockSymbol:
+ *                 type: string
+ *                 example: "AAPL"
+ *     responses:
+ *       200:
+ *         description: remove a stock from watchlist was successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 watchlist:
+ *                   type: object
+ *       400:
+ *         description: Invalid request
+ *
+ *
+ *
+ */
 
 router.post("/remove/:userId", async (req, res) => {
 	try {

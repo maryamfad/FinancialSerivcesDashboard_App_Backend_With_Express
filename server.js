@@ -27,6 +27,16 @@ console.log(
 	"FINANCIAL_MODELING_PREP_API_KEY(from server.js):",
 	process.env.FINANCIAL_MODELING_PREP_API_KEY //for testing purposes
 );
+console.log(
+	"JWT_SECRET(from server.js):",
+	process.env.JWT_SECRET //for testing purposes
+);
+
+console.log(
+	"JWT_SECRET(from server.js):",
+	process.env.JWT_SECRET //for testing purposes
+);
+
 // import "./jobs/Scheduler.js";
 app.use((req, res, next) => {
 	if (req.path === "/") {

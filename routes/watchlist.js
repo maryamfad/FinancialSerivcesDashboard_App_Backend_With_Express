@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 import Watchlist from "../models/Watchlist.js";
 import { authMiddleware } from "../routes/auth.js";
-import  getOrderQuote  from "../utils/getOrderQuote.js";
+import getOrderQuote from "../utils/getOrderQuote.js";
 
 /**
  * @swagger
@@ -59,15 +59,8 @@ router.post("/add/:userId", authMiddleware, async (req, res) => {
 		);
 
 		if (!stockExists) {
-			const stockInfos = await getOrderQuote(stockSymbol);	
 			watchlist.stocks.push({
 				stockSymbol,
-				price: stockInfos.price,
-				name: stockInfos.name,
-				exchange:stockInfos.exchange,
-				changesPercentage: stockInfos.changesPercentage,
-				change: stockInfos.change,
-				marketCap: stockInfos.marketCap,
 			});
 			await watchlist.save();
 			res.status(201).json({

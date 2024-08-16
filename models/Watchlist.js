@@ -9,13 +9,6 @@ const watchlistSchema = new mongoose.Schema({
 	stocks: [
 		{
 			stockSymbol: { type: String, required: true },
-			price: { type: String },
-      name: { type: String},
-      exchange: { type: String},
-			marketCap: { type: String },
-			change: { type: String },
-			changesPercentage: { type: String },
-			addedAt: { type: Date, default: Date.now },
 		},
 	],
 });

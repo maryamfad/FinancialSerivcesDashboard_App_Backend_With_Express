@@ -74,9 +74,8 @@ router.post("/signup", async (req, res) => {
       password,
       balance: 10000,
       portfolio: [],
-      buyingPower: 100000,
       cash: 0,
-      change: 0,
+      dailyChange: 0,
     });
     await newUser.save();
     res.status(200).json(newUser);

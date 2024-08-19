@@ -12,9 +12,8 @@ const userSchema = new mongoose.Schema({
     },
   ],
   balance: { type: Number, default: 10000 },
-  buyingPower: { type: Number, default:100000},
-  cash: { type: Number, default:20000},
-  dailyChange: { type: Number, default:0.2}
+  cash: { type: Number, default:0},
+  dailyChange: { type: Number, default:0}
 });
 
 

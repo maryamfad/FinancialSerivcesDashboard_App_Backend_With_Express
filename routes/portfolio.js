@@ -133,7 +133,7 @@ router.get("/holdings/:userId", authMiddleware, async (req, res) => {
 		if (!portfolio || portfolio.stocks.length === 0) {
 			return res
 				.status(404)
-				.json({ message: "No portfolio found for this user" });
+				.json({ message: "No Holding found for this user" });
 		}
 
 		const totalPortfolioValue = portfolio.stocks.reduce((acc, stock) => {

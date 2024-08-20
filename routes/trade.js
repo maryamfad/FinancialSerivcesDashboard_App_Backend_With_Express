@@ -108,7 +108,7 @@ router.post("/buy", authMiddleware, async (req, res) => {
 
 			await Promise.all([order.save(), user.save(), portfolio.save()]);
 
-			res.json({ order });
+			res.json({ user, order, portfolio });
 		} else {
 			res.status(400).json({ error: "Insufficient funds" });
 		}
@@ -232,6 +232,7 @@ router.post("/sell", authMiddleware, async (req, res) => {
 	}
 });
 
+
 /**
  * @swagger
  * /trade/orders/{userId}:
@@ -239,7 +240,7 @@ router.post("/sell", authMiddleware, async (req, res) => {
  *     summary: Get the orders by id
  *     security:
  *       - BearerAuth: []
- *     tags:
+ *     tags: 
  *       - Trade
  *     parameters:
  *       - in: path
@@ -248,7 +249,7 @@ router.post("/sell", authMiddleware, async (req, res) => {
  *           type: string
  *         required: true
  *         description: The user id
- *
+ *                 
  *     responses:
  *       200:
  *         description: An order information
@@ -257,25 +258,27 @@ router.post("/sell", authMiddleware, async (req, res) => {
  *       500:
  *         description: server error
  */
-router.get("/orders/:userId", authMiddleware, async (req, res) => {
-	const { userId } = req.params;
+router.get('/orders/:userId', authMiddleware, async (req, res) => {
+  const { userId } = req.params;
 
-	try {
-		const orders = await Order.find({ userId });
+  try {
+    const orders = await Order.find({ userId });
 
-		if (!orders || orders.length === 0) {
-			return res
-				.status(401)
-				.json({ message: "No Order found for this user" });
-		}
+    if (!orders || orders.length === 0) {
+      return res.status(401).json({ message: 'No Order found for this user' });
+    }
 
-		res.json(orders);
-	} catch (error) {
-		res.status(500).json({
-			message: "An error occurred while retrieving the orders",
-			details: error.message,
-		});
-	}
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({
+      message: 'An error occurred while retrieving the orders',
+      details: error.message,
+    });
+  }
 });
 
-export default router;
+
+
+
+  
+  export default router;

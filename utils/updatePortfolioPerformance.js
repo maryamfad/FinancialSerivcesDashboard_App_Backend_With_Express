@@ -1,15 +1,17 @@
 import Portfolio from "../models/Portfolio.js";
+import User from "../models/User.js";
+
 import fetchCurrentMarketValue from "./fetchCurrentMarketValue.js";
 
-async function updatePortfolioPerformance(portfolioId) {
+async function updatePortfolioPerformance(portfolioId, userId) {
 	try {
 		const portfolio = await Portfolio.findById(portfolioId);
-
+		const user = await User.findById(userId);
 		if (!portfolio) {
 			throw new Error("Portfolio not found");
 		}
 
-		let totalValue = 0;
+		let totalValue = user.balance;
 
 		for (const stock of portfolio.stocks) {
 			try {

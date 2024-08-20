@@ -1,5 +1,6 @@
 import express from "express";
 import Portfolio from "../models/Portfolio.js";
+import User from "../models/User.js";
 import updatePortfolioPerformance from "../utils/updatePortfolioPerformance.js";
 
 const router = express.Router();
@@ -87,7 +88,8 @@ router.put("/update/:userId", authMiddleware, async (req, res) => {
 				.json({ message: "No portfolio found for this user" });
 		}
 		const updatedPortfolio = await updatePortfolioPerformance(
-			portfolio[0]._id
+			portfolio[0]._id,
+			userId
 		);
 		res.json(updatedPortfolio);
 	} catch (error) {
@@ -138,7 +140,7 @@ router.get("/holdings/:userId", authMiddleware, async (req, res) => {
 
 		const totalPortfolioValue = portfolio.stocks.reduce((acc, stock) => {
 			if (!stock.quantity || !stock.price) {
-				throw new Error('Stock data is incomplete');
+				throw new Error("Stock data is incomplete");
 			}
 			return acc + stock.quantity * stock.price;
 		}, 0);

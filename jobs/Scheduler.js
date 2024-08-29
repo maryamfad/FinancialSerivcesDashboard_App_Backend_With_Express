@@ -9,7 +9,9 @@ function checkDatabaseConnection() {
 	} else {
 		return mongoose
 			.connect(process.env.MONGO_DB_URI)
-			.then(() => console.log("MongoDB connected in checkDatabaseConnection()"))
+			.then(() =>
+				console.log("MongoDB connected in checkDatabaseConnection()")
+			)
 			.catch((err) =>
 				console.error("Error with MongoDB Connection", err)
 			);
@@ -24,10 +26,14 @@ cron.schedule("0 * * * *", async () => {
 			console.warn("No portfolios found to update.");
 			return;
 		}
+
 		for (const portfolio of portfolios) {
 			try {
-				await updatePortfolioPerformance(portfolio._id);
-				console.log(`Portfolio ${portfolio._id} updated successfully.`);
+				await updatePortfolioPerformance(
+					portfolio._id,
+					portfolio.userId
+				);
+				console.log("Portfolio performance updated successfully.");
 			} catch (updateError) {
 				console.error(
 					`Failed to update portfolio ${portfolio._id}:`,
@@ -35,9 +41,7 @@ cron.schedule("0 * * * *", async () => {
 				);
 			}
 		}
-		console.log("portfolio._id", portfolio._id);
-
-		console.log("All portfolios updated successfully.");
+		
 	} catch (error) {
 		if (error.message.includes("database connection")) {
 			console.error(

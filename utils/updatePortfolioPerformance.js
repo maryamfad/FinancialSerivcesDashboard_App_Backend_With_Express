@@ -1,6 +1,5 @@
 import Portfolio from "../models/Portfolio.js";
 import User from "../models/User.js";
-
 import fetchCurrentMarketValue from "./fetchCurrentMarketValue.js";
 
 async function updatePortfolioPerformance(portfolioId, userId) {
